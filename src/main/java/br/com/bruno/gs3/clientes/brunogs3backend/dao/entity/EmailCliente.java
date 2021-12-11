@@ -3,6 +3,7 @@ package br.com.bruno.gs3.clientes.brunogs3backend.dao.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Objects;
 
 @Entity
@@ -11,36 +12,24 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Endereco extends EntityGlobal {
+public class EmailCliente extends EntityGlobal {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_endereco", nullable = false)
+    @Column(name = "id_email", nullable = false)
     private Long id;
 
-    @Column()
-    private String cep;
+    @Email
+    private String email;
 
-    @Column()
-    private String cidade;
-
-    @Column()
-    private String bairro;
-
-    @Column()
-    private String logradouro;
-
-    @Column()
-    private String complemento;
-
-    @Column()
-    private String uf;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, optional = false)
+    @JoinColumn(name = "id_cliente", nullable = false)
+    private Cliente cliente;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Endereco endereco = (Endereco) o;
-        return id.equals(endereco.id);
+        EmailCliente that = (EmailCliente) o;
+        return id.equals(that.id);
     }
 
     @Override

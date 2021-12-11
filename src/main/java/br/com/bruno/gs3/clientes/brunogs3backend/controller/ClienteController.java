@@ -29,7 +29,7 @@ public class ClienteController {
         clientes.add(ClienteDTO.builder().cpf("03528843128")
                 .id(1L)
                 .emails(preencheEmail())
-                .enderecoDTO(EnderecoDTO.builder().id(1L)
+                .endereco(EnderecoDTO.builder().id(1L)
                         .cep("72115145")
                         .bairro("Taguatinga")
                         .cidade("Brasília")

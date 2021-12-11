@@ -13,7 +13,7 @@ public class ClienteDTO extends DTO{
     private Long id;
     private String nome;
     private String cpf;
-    private EnderecoDTO enderecoDTO;
+    private EnderecoDTO endereco;
     private Set<EmailDTO> emails;
     private Set<TelefoneDTO> telefones;
 }
