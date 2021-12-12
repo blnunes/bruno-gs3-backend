@@ -13,8 +13,9 @@ import java.util.Objects;
 @Builder
 public class Telefone extends EntityGlobal{
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_telefone", nullable = false)
-    private Long id_telefone;
+    private Long id;
 
     @Column()
     private String ddd;
@@ -22,7 +23,7 @@ public class Telefone extends EntityGlobal{
     @Column()
     private String numero;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne()
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
@@ -31,11 +32,11 @@ public class Telefone extends EntityGlobal{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Telefone telefone = (Telefone) o;
-        return id_telefone.equals(telefone.id_telefone);
+        return Objects.equals(id, telefone.id) && Objects.equals(ddd, telefone.ddd) && Objects.equals(numero, telefone.numero);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_telefone);
+        return Objects.hash(id, ddd, numero);
     }
 }

@@ -1,28 +1,23 @@
 package br.com.bruno.gs3.clientes.brunogs3backend.mapper;
 
 import br.com.bruno.gs3.clientes.brunogs3backend.dao.entity.Cliente;
-import br.com.bruno.gs3.clientes.brunogs3backend.dao.entity.EmailCliente;
-import br.com.bruno.gs3.clientes.brunogs3backend.dao.entity.Telefone;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.ClienteDTO;
-import br.com.bruno.gs3.clientes.brunogs3backend.dto.EmailDTO;
-import br.com.bruno.gs3.clientes.brunogs3backend.dto.TelefoneDTO;
+import br.com.bruno.gs3.clientes.brunogs3backend.forms.ClienteForm;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class ClienteMapper implements MapperGlobal<Cliente, ClienteDTO> {
+public class ClienteMapper implements MapperGlobal<Cliente, ClienteDTO, ClienteForm> {
 
     @Override
     public Cliente dtoToEntity(ClienteDTO dto) {
+
         return Cliente.builder()
                 .nome(dto.getNome())
                 .cpf(dto.getCpf())
                 .endereco(new EnderecoMapper().dtoToEntity(dto.getEndereco()))
-                .emails(preencheEmailsDTOToEntity(dto.getEmails()))
-                .telefones(preencheTelefonesDTOToEntity(dto.getTelefones()))
                 .build();
     }
-
 
 
     @Override
@@ -32,24 +27,32 @@ public class ClienteMapper implements MapperGlobal<Cliente, ClienteDTO> {
                 .nome(entity.getNome())
                 .cpf(entity.getCpf())
                 .endereco(new EnderecoMapper().entityToDTO(entity.getEndereco()))
-                .emails(preencheEmailsEntityToDTO(entity.getEmails()))
-                .telefones(preencheTelefonesEntityToDTO(entity.getTelefones()))
                 .build();
     }
 
-    private Set<Telefone> preencheTelefonesDTOToEntity(Set<TelefoneDTO> telefones) {
-        return telefones.stream().map(telefoneDTO -> new TelefoneMapper().dtoToEntity(telefoneDTO)).collect(Collectors.toSet());
+    @Override
+    public ClienteForm dtoToForm(ClienteDTO dto) {
+        return ClienteForm.builder()
+                .idCliente(dto.getId())
+                .cpf(dto.getCpf())
+                .nome(dto.getNome())
+                .endereco(new EnderecoMapper().dtoToForm(dto.getEndereco()))
+                .telefones(dto.getTelefones().stream().map(telefoneDTO ->
+                        new TelefoneMapper().dtoToForm(telefoneDTO)).collect(Collectors.toList()))
+                .emails(dto.getEmails().stream().map(emailDTO ->
+                        new EmailMapper().dtoToForm(emailDTO)).collect(Collectors.toList()))
+                .build();
     }
 
-    private Set<EmailCliente> preencheEmailsDTOToEntity(Set<EmailDTO> emails) {
-        return emails.stream().map(emailDTO -> new EmailMapper().dtoToEntity(emailDTO)).collect(Collectors.toSet());
+    @Override
+    public List<Cliente> listDtoToEntity(List<ClienteDTO> dto) {
+        return null;
     }
 
-    private Set<TelefoneDTO> preencheTelefonesEntityToDTO(Set<Telefone> telefones) {
-        return telefones.stream().map(telefone -> new TelefoneMapper().entityToDTO(telefone)).collect(Collectors.toSet());
+    @Override
+    public List<ClienteDTO> listEntityToDTO(List<Cliente> entity) {
+        return null;
     }
 
-    private Set<EmailDTO> preencheEmailsEntityToDTO(Set<EmailCliente> emails) {
-        return emails.stream().map(email -> new EmailMapper().entityToDTO(email)).collect(Collectors.toSet());
-    }
+
 }

@@ -2,8 +2,11 @@ package br.com.bruno.gs3.clientes.brunogs3backend.mapper;
 
 import br.com.bruno.gs3.clientes.brunogs3backend.dao.entity.Endereco;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.EnderecoDTO;
+import br.com.bruno.gs3.clientes.brunogs3backend.forms.EnderecoForm;
 
-public class EnderecoMapper implements MapperGlobal<Endereco, EnderecoDTO> {
+import java.util.List;
+
+public class EnderecoMapper implements MapperGlobal<Endereco, EnderecoDTO, EnderecoForm> {
 
     @Override
     public Endereco dtoToEntity(EnderecoDTO dto) {
@@ -28,5 +31,28 @@ public class EnderecoMapper implements MapperGlobal<Endereco, EnderecoDTO> {
                 .logradouro(entity.getLogradouro())
                 .uf(entity.getUf())
                 .build();
+    }
+
+    @Override
+    public EnderecoForm dtoToForm(EnderecoDTO dto) {
+        return EnderecoForm.builder()
+                .id(dto.getId())
+                .bairro(dto.getBairro())
+                .cep(dto.getCep())
+                .cidade(dto.getCidade())
+                .complemento(dto.getComplemento())
+                .logradouro(dto.getLogradouro())
+                .uf(dto.getUf())
+                .build();
+    }
+
+    @Override
+    public List<Endereco> listDtoToEntity(List<EnderecoDTO> dto) {
+        return null;
+    }
+
+    @Override
+    public List<EnderecoDTO> listEntityToDTO(List<Endereco> entity) {
+        return null;
     }
 }

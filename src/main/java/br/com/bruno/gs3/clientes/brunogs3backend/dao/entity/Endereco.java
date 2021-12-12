@@ -13,7 +13,7 @@ import java.util.Objects;
 @Builder
 public class Endereco extends EntityGlobal {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id_endereco", nullable = false)
     private Long id;
 
@@ -40,11 +40,11 @@ public class Endereco extends EntityGlobal {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Endereco endereco = (Endereco) o;
-        return id.equals(endereco.id);
+        return Objects.equals(id, endereco.id) && Objects.equals(cep, endereco.cep);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, cep);
     }
 }
