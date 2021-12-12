@@ -1,6 +1,7 @@
 package br.com.bruno.gs3.clientes.brunogs3backend.dto;
 
 import lombok.*;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -19,6 +20,7 @@ public class ClienteDTO extends DTO{
     private String nome;
 
     @Size(min = 11, max=11, message = "Campo CPF deve ter o tamanho igual a 11")
+    @CPF
     private String cpf;
 
     @Valid
