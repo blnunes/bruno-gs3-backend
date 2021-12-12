@@ -1,6 +1,7 @@
 package br.com.bruno.gs3.clientes.brunogs3backend.handle;
 
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.RetornoErroDTO;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.ws.rs.NotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ExcpetionHandler {
@@ -26,7 +29,9 @@ public class ExcpetionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<RetornoErroDTO> notFound(MethodArgumentNotValidException e) {
-        return new ResponseEntity<>(new RetornoErroDTO(HttpStatus.BAD_REQUEST.value(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage()), HttpStatus.BAD_REQUEST);
+        List<String> erroList = e.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+        return new ResponseEntity<>(new RetornoErroDTO(HttpStatus.BAD_REQUEST.value(), erroList), HttpStatus.BAD_REQUEST);
     }
 
 

@@ -11,7 +11,6 @@ public class TelefoneMapper implements MapperGlobal<Telefone, TelefoneDTO, Telef
 
     @Override
     public Telefone dtoToEntity(TelefoneDTO dto) {
-
         return Telefone.builder()
                 .ddd(dto.getDdd())
                 .numero(dto.getNumero())

@@ -71,7 +71,7 @@ public class ClienteController {
 
     @PutMapping("/alterar/{id}")
     @Transactional
-    public ResponseEntity<ClienteForm> update(@PathVariable String id, @RequestBody ClienteDTO clienteDTO) throws NotFoundException {
+    public ResponseEntity<ClienteForm> update(@PathVariable String id, @Valid @RequestBody ClienteDTO clienteDTO) throws NotFoundException {
         ClienteDTO retornoCliente = clienteService.update(id, clienteDTO);
         return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.NO_CONTENT);
     }

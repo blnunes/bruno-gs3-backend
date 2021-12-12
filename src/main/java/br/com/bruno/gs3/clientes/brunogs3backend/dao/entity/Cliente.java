@@ -22,7 +22,6 @@ public class Cliente extends EntityGlobal {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @Size(min = 11, max=11, message = "Campo CPF deve ter o tamanho igual a 11")
     @Column(nullable = false, unique = true)
     private String cpf;
 

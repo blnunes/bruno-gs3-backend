@@ -12,10 +12,19 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class RetornoErroDTO {
 
     private int codigo;
     private String erro;
+    private List<String> erroList;
 
+    public RetornoErroDTO(int codigo, String erro){
+        this.codigo = codigo;
+        this.erro = erro;
+    }
+
+    public RetornoErroDTO(int codigo, List<String> erroList) {
+        this.codigo = codigo;
+        this.erroList = erroList;
+    }
 }

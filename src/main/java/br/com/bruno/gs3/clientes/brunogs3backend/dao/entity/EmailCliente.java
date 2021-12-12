@@ -18,7 +18,6 @@ public class EmailCliente extends EntityGlobal {
     @Column(name = "id_email", nullable = false)
     private Long id;
 
-    @Email
     private String email;
 
     @ManyToOne()
