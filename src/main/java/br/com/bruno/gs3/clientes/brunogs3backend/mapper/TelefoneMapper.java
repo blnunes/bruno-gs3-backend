@@ -15,7 +15,6 @@ public class TelefoneMapper implements MapperGlobal<Telefone, TelefoneDTO, Telef
         return Telefone.builder()
                 .ddd(dto.getDdd())
                 .numero(dto.getNumero())
-                .cliente(new ClienteMapper().dtoToEntity(dto.getClienteDTO()))
                 .build();
     }
 
@@ -35,16 +34,6 @@ public class TelefoneMapper implements MapperGlobal<Telefone, TelefoneDTO, Telef
                 .ddd(dto.getDdd())
                 .numero(dto.getNumero())
                 .build();
-    }
-
-    @Override
-    public List<Telefone> listDtoToEntity(List<TelefoneDTO> dto) {
-        return dto.stream().map(telefoneDTO -> new TelefoneMapper().dtoToEntity(telefoneDTO)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<TelefoneDTO> listEntityToDTO(List<Telefone> entity) {
-        return entity.stream().map(telefone -> new TelefoneMapper().entityToDTO(telefone)).collect(Collectors.toList());
     }
 
 }

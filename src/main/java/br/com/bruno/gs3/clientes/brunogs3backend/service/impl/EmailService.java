@@ -56,7 +56,7 @@ public class EmailService implements ServiceGlobal<EmailDTO> {
 
     @Override
     public List<EmailDTO> addAll(List<EmailDTO> listDTO) {
-        return new EmailMapper().listEntityToDTO(emailRepository.saveAll(new EmailMapper().listDtoToEntity(listDTO)));
+        return null;
     }
 
 }

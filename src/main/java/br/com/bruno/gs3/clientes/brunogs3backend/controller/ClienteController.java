@@ -28,11 +28,6 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private TelefoneService telefoneService;
 
     @GetMapping()
     public ResponseEntity<List<ClienteDTO>> list() {
@@ -73,40 +68,20 @@ public class ClienteController {
     @PostMapping("/cadastrar")
     public ResponseEntity<ClienteForm> create(@RequestBody ClienteDTO clienteDTO) {
         ClienteDTO retornoCliente = clienteService.create(clienteDTO);
-        List<TelefoneDTO> retornoListaTelefone = telefoneService.addAll(preencheListaTelefone(clienteDTO.getTelefones(), retornoCliente));
-        List<EmailDTO> retornoListaEmail = emailService.addAll(preencheListaEmail(clienteDTO.getEmails(), retornoCliente));
-
-        return new ResponseEntity<>(montaObjetoRetorno(retornoCliente, retornoListaTelefone, retornoListaEmail), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.CREATED);
     }
 
     @PutMapping("/alterar/{id}")
     @Transactional
     public ResponseEntity<ClienteForm> update(@PathVariable String id, @RequestBody ClienteDTO clienteDTO) throws NotFoundException {
         ClienteDTO retornoCliente = clienteService.update(id, clienteDTO);
-        List<TelefoneDTO> retornoListaTelefone = telefoneService.addAll(preencheListaTelefone(clienteDTO.getTelefones(), retornoCliente));
-        List<EmailDTO> retornoListaEmail = emailService.addAll(preencheListaEmail(clienteDTO.getEmails(), retornoCliente));
-        return new ResponseEntity<>(montaObjetoRetorno(retornoCliente, retornoListaTelefone, retornoListaEmail), HttpStatus.NO_CONTENT);
-
+        return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.NO_CONTENT);
     }
 
-    private ClienteForm montaObjetoRetorno(ClienteDTO retornoCliente, List<TelefoneDTO> retornoListaTelefone, List<EmailDTO> retornoListaEmail) {
-        retornoCliente.setTelefones(retornoListaTelefone);
-        retornoCliente.setEmails(retornoListaEmail);
+    private ClienteForm montaObjetoRetorno(ClienteDTO retornoCliente) {
         return new ClienteMapper().dtoToForm(retornoCliente);
     }
 
-    private List<TelefoneDTO> preencheListaTelefone(List<TelefoneDTO> telefoneDTOList, ClienteDTO retornoCliente) {
-        return telefoneDTOList.stream().map(telefoneDTO -> {
-            telefoneDTO.setClienteDTO(retornoCliente);
-            return telefoneDTO;
-        }).collect(Collectors.toList());
-    }
 
-    private List<EmailDTO> preencheListaEmail(List<EmailDTO> emailDTOList, ClienteDTO retornoCliente) {
-        return emailDTOList.stream().map(telefoneDTO -> {
-            telefoneDTO.setClienteDTO(retornoCliente);
-            return telefoneDTO;
-        }).collect(Collectors.toList());
-    }
 
 }

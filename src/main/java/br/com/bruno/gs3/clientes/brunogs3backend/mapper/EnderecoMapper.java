@@ -46,13 +46,5 @@ public class EnderecoMapper implements MapperGlobal<Endereco, EnderecoDTO, Ender
                 .build();
     }
 
-    @Override
-    public List<Endereco> listDtoToEntity(List<EnderecoDTO> dto) {
-        return null;
-    }
 
-    @Override
-    public List<EnderecoDTO> listEntityToDTO(List<Endereco> entity) {
-        return null;
-    }
 }

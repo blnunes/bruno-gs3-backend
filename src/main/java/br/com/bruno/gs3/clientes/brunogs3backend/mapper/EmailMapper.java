@@ -13,7 +13,6 @@ public class EmailMapper implements MapperGlobal<EmailCliente, EmailDTO, EmailFo
     public EmailCliente dtoToEntity(EmailDTO dto) {
         return EmailCliente.builder()
                 .email(dto.getEmail())
-                .cliente(new ClienteMapper().dtoToEntity(dto.getClienteDTO()))
                 .build();
     }
 
@@ -33,15 +32,7 @@ public class EmailMapper implements MapperGlobal<EmailCliente, EmailDTO, EmailFo
                 .build();
     }
 
-    @Override
-    public List<EmailCliente> listDtoToEntity(List<EmailDTO> dto) {
-        return dto.stream().map(emailDTO -> new EmailMapper().dtoToEntity(emailDTO)).collect(Collectors.toList());
-    }
 
-    @Override
-    public List<EmailDTO> listEntityToDTO(List<EmailCliente> entity) {
-        return entity.stream().map(email -> new EmailMapper().entityToDTO(email)).collect(Collectors.toList());
-    }
 
 
 }

@@ -50,7 +50,7 @@ public class TelefoneService implements ServiceGlobal<TelefoneDTO> {
 
     @Override
     public List<TelefoneDTO> addAll(List<TelefoneDTO> listDTO) {
-        return new TelefoneMapper().listEntityToDTO(telefoneRepository.saveAll(new TelefoneMapper().listDtoToEntity(listDTO)));
+        return null;
     }
 
 

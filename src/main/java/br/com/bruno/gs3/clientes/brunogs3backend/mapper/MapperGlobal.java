@@ -10,6 +10,5 @@ public interface MapperGlobal<T extends EntityGlobal, R extends DTO, S extends F
     T dtoToEntity(R dto);
     R entityToDTO(T entity);
     S dtoToForm(R dto);
-    List<T> listDtoToEntity(List<R> dto);
-    List<R> listEntityToDTO(List<T> entity);
+
 }
