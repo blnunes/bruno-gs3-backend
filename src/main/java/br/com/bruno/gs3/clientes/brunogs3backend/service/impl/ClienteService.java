@@ -17,12 +17,15 @@ import br.com.bruno.gs3.clientes.brunogs3backend.mapper.EmailMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.mapper.EnderecoMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.mapper.TelefoneMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.service.ServiceGlobal;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionSystemException;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.RollbackException;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;

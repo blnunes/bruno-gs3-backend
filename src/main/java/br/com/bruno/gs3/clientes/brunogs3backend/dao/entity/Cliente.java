@@ -19,7 +19,6 @@ public class Cliente extends EntityGlobal {
     @Column(name = "id_cliente", nullable = false)
     private Long idCliente;
 
-    @Size(min = 3, max = 100, message = "Campo nome deve ter no mínimo 3 e no máximo 100 caracteres")
     @Column(nullable = false, length = 100)
     private String nome;
 

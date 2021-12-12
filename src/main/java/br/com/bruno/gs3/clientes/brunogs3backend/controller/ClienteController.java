@@ -8,18 +8,16 @@ import br.com.bruno.gs3.clientes.brunogs3backend.enums.TipoTelefoneEnum;
 import br.com.bruno.gs3.clientes.brunogs3backend.forms.ClienteForm;
 import br.com.bruno.gs3.clientes.brunogs3backend.mapper.ClienteMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.service.impl.ClienteService;
-import br.com.bruno.gs3.clientes.brunogs3backend.service.impl.EmailService;
-import br.com.bruno.gs3.clientes.brunogs3backend.service.impl.TelefoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.ws.rs.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("clientes")
@@ -66,7 +64,7 @@ public class ClienteController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<ClienteForm> create(@RequestBody ClienteDTO clienteDTO) {
+    public ResponseEntity<ClienteForm> create(@Valid @RequestBody ClienteDTO clienteDTO) {
         ClienteDTO retornoCliente = clienteService.create(clienteDTO);
         return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.CREATED);
     }
