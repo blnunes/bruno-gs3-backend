@@ -29,7 +29,7 @@ public class TelefoneService implements ServiceGlobal<TelefoneDTO> {
     }
 
     @Override
-    public TelefoneDTO getOne(String id) throws Exception {
+    public TelefoneDTO getOne(String id)  {
         return null;
     }
 

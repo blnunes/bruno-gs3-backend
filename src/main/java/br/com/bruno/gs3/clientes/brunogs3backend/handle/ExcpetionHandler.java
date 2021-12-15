@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.naming.AuthenticationException;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,5 +35,9 @@ public class ExcpetionHandler {
         return new ResponseEntity<>(new RetornoErroDTO(HttpStatus.BAD_REQUEST.value(), erroList), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = AuthenticationException.class)
+    public ResponseEntity<RetornoErroDTO> notFound(AuthenticationException e) {
+        return new ResponseEntity<>(new RetornoErroDTO(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 
 }

@@ -27,7 +27,7 @@ public class EmailService implements ServiceGlobal<EmailDTO> {
     }
 
     @Override
-    public EmailDTO getOne(String id) throws Exception {
+    public EmailDTO getOne(String id)  {
         return null;
     }
 

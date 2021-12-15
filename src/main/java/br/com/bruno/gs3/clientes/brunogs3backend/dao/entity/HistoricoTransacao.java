@@ -23,4 +23,7 @@ public class HistoricoTransacao {
     @Column()
     private String usuario;
 
+    @Column
+    private String tipoTransacao;
+
 }

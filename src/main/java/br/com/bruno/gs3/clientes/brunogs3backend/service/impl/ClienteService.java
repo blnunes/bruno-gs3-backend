@@ -40,12 +40,14 @@ public class ClienteService implements ServiceGlobal<ClienteDTO> {
 
     @Override
     public List<ClienteDTO> findAll() {
-        return null;
+        return clienteRepository.findAll().stream().map(cliente ->
+                new ClienteMapper().entityToDTO(cliente)
+        ).collect(Collectors.toList());
     }
 
     @Override
-    public ClienteDTO getOne(String id) throws Exception {
-        return null;
+    public ClienteDTO getOne(String id) {
+        return new ClienteMapper().entityToDTO(clienteRepository.getById(Long.valueOf(id)));
     }
 
     @Override
@@ -54,7 +56,7 @@ public class ClienteService implements ServiceGlobal<ClienteDTO> {
             Cliente cliente = clienteRepository.getById(Long.valueOf(id));
             return new ClienteMapper().entityToDTO(clienteRepository.save(montaObjetoPersistencia(dto, cliente)));
         } catch (EntityNotFoundException e) {
-            throw new NotFoundException("Cliente: " + dto.getCpf() + " não encontrado!");
+            throw new NotFoundException("Cliente do não encontrado!");
         }
     }
 

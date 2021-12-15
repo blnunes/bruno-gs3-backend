@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface ServiceGlobal<T extends DTO> {
     List<T> findAll();
-    T getOne(String id) throws Exception;
-    T update(String id, T dto) throws NotFoundException;
+    T getOne(String id);
+    T update(String id, T dto);
     T create(T dto);
     void delete(String id);
     List<T> addAll(List<T> listDTO);

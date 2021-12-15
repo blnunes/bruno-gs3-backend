@@ -1,11 +1,7 @@
 package br.com.bruno.gs3.clientes.brunogs3backend.controller;
 
-import br.com.bruno.gs3.clientes.brunogs3backend.dao.repository.HistoricoRepository;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.ClienteDTO;
-import br.com.bruno.gs3.clientes.brunogs3backend.dto.EmailDTO;
-import br.com.bruno.gs3.clientes.brunogs3backend.dto.EnderecoDTO;
-import br.com.bruno.gs3.clientes.brunogs3backend.dto.TelefoneDTO;
-import br.com.bruno.gs3.clientes.brunogs3backend.enums.TipoTelefoneEnum;
+import br.com.bruno.gs3.clientes.brunogs3backend.enums.TipoTransacaoEnum;
 import br.com.bruno.gs3.clientes.brunogs3backend.forms.ClienteForm;
 import br.com.bruno.gs3.clientes.brunogs3backend.mapper.ClienteMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.service.impl.ClienteService;
@@ -18,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.NotFoundException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("clientes")
@@ -31,47 +27,23 @@ public class ClienteController {
     @Autowired
     private HistoricoService historicoService;
 
-
     @GetMapping()
-    public ResponseEntity<List<ClienteDTO>> list() {
-        ArrayList<ClienteDTO> clientes = new ArrayList<>();
-        clientes.add(ClienteDTO.builder().cpf("03528843128")
-                .id(1L)
-                .emails(preencheEmail())
-                .endereco(EnderecoDTO.builder().id(1L)
-                        .cep("72115145")
-                        .bairro("Taguatinga")
-                        .cidade("Brasília")
-                        .logradouro("Quadra")
-                        .complemento("Apto 706").build())
-                .telefones(preencheTelefone())
-                .nome("Bruno Lima Nunes")
-                .build());
-        return ResponseEntity.ok(clientes);
+    public ResponseEntity<List<ClienteForm>> list() {
+        List<ClienteForm> form = clienteService.findAll().stream().map(cliente ->
+                new ClienteMapper().dtoToForm(cliente)
+        ).collect(Collectors.toList());
+        return new ResponseEntity<>(form, HttpStatus.OK);
     }
 
-    private List<EmailDTO> preencheEmail() {
-        List<EmailDTO> emails = new ArrayList<>();
-        emails.add(EmailDTO.builder().email("brunoln91@gmail.com")
-                .id(1L)
-                .build());
-        return emails;
-    }
-
-    private List<TelefoneDTO> preencheTelefone() {
-        List<TelefoneDTO> telefones = new ArrayList<>();
-        telefones.add(
-                TelefoneDTO.builder().tipoTelefone(TipoTelefoneEnum.CELULAR)
-                        .id(1L)
-                        .ddd("61")
-                        .numero("991871010").build());
-        return telefones;
+    @GetMapping("{id}")
+    public ResponseEntity<ClienteForm> getOne(@PathVariable String id) {
+        return new ResponseEntity<>(new ClienteMapper().dtoToForm(clienteService.getOne(id)), HttpStatus.OK);
     }
 
     @PostMapping("/cadastrar")
     public ResponseEntity<ClienteForm> create(@Valid @RequestBody ClienteDTO clienteDTO) {
         ClienteDTO retornoCliente = clienteService.create(clienteDTO);
-        historicoService.gravaHistorico();
+        historicoService.gravaHistorico(clienteDTO.getLogin(), TipoTransacaoEnum.POST);
         return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.CREATED);
     }
 
@@ -79,9 +51,7 @@ public class ClienteController {
     @Transactional
     public ResponseEntity<ClienteForm> update(@PathVariable String id, @Valid @RequestBody ClienteDTO clienteDTO) throws NotFoundException {
         ClienteDTO retornoCliente = clienteService.update(id, clienteDTO);
-        historicoService.gravaHistorico();
+        historicoService.gravaHistorico(clienteDTO.getLogin(), TipoTransacaoEnum.PUT);
         return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.NO_CONTENT);
     }
-
-
 }
