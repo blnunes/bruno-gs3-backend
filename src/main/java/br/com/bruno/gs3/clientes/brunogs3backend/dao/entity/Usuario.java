@@ -3,7 +3,6 @@ package br.com.bruno.gs3.clientes.brunogs3backend.dao.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -11,16 +10,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class HistoricoTransacao {
+public class Usuario extends EntityGlobal{
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id_transacao", nullable = false)
-    private Long id_transacao;
+    @Column(name = "id_usuario", nullable = false)
+    private Long id;
 
-    @Column()
-    private LocalDateTime data;
-
-    @Column()
+    @Column
     private String usuario;
+
+    @Column
+    private String senha;
+
+    @ManyToOne
+    @JoinColumn(name = "id_perfil")
+    private Perfil perfil;
 
 }

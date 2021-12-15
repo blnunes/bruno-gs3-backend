@@ -6,7 +6,6 @@ import br.com.bruno.gs3.clientes.brunogs3backend.dao.entity.Endereco;
 import br.com.bruno.gs3.clientes.brunogs3backend.dao.entity.Telefone;
 import br.com.bruno.gs3.clientes.brunogs3backend.dao.repository.ClienteRepository;
 import br.com.bruno.gs3.clientes.brunogs3backend.dao.repository.EmailRepository;
-import br.com.bruno.gs3.clientes.brunogs3backend.dao.repository.EnderecoRepository;
 import br.com.bruno.gs3.clientes.brunogs3backend.dao.repository.TelefoneRepository;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.ClienteDTO;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.EmailDTO;
@@ -14,18 +13,14 @@ import br.com.bruno.gs3.clientes.brunogs3backend.dto.EnderecoDTO;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.TelefoneDTO;
 import br.com.bruno.gs3.clientes.brunogs3backend.mapper.ClienteMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.mapper.EmailMapper;
-import br.com.bruno.gs3.clientes.brunogs3backend.mapper.EnderecoMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.mapper.TelefoneMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.service.ServiceGlobal;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionSystemException;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.RollbackException;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,9 +55,7 @@ public class ClienteService implements ServiceGlobal<ClienteDTO> {
             return new ClienteMapper().entityToDTO(clienteRepository.save(montaObjetoPersistencia(dto, cliente)));
         } catch (EntityNotFoundException e) {
             throw new NotFoundException("Cliente: " + dto.getCpf() + " não encontrado!");
-
         }
-
     }
 
     public Cliente montaObjetoPersistencia(ClienteDTO dto, Cliente entity) {

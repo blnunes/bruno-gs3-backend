@@ -4,6 +4,8 @@ import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -24,11 +26,14 @@ public class ClienteDTO extends DTO{
     private String cpf;
 
     @Valid
+    @NotNull(message = "Endereço obrigatório")
     private EnderecoDTO endereco;
 
     @Valid
+    @NotEmpty(message = "Deve conter pelo menos um e-mail")
     private List<EmailDTO> emails;
 
     @Valid
+    @NotEmpty(message = "Deve conter pelo menos um telefone")
     private List<TelefoneDTO> telefones;
 }

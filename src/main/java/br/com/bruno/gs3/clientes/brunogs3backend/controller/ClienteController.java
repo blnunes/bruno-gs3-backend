@@ -1,5 +1,6 @@
 package br.com.bruno.gs3.clientes.brunogs3backend.controller;
 
+import br.com.bruno.gs3.clientes.brunogs3backend.dao.repository.HistoricoRepository;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.ClienteDTO;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.EmailDTO;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.EnderecoDTO;
@@ -8,6 +9,7 @@ import br.com.bruno.gs3.clientes.brunogs3backend.enums.TipoTelefoneEnum;
 import br.com.bruno.gs3.clientes.brunogs3backend.forms.ClienteForm;
 import br.com.bruno.gs3.clientes.brunogs3backend.mapper.ClienteMapper;
 import br.com.bruno.gs3.clientes.brunogs3backend.service.impl.ClienteService;
+import br.com.bruno.gs3.clientes.brunogs3backend.service.impl.HistoricoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private HistoricoService historicoService;
 
 
     @GetMapping()
@@ -66,6 +71,7 @@ public class ClienteController {
     @PostMapping("/cadastrar")
     public ResponseEntity<ClienteForm> create(@Valid @RequestBody ClienteDTO clienteDTO) {
         ClienteDTO retornoCliente = clienteService.create(clienteDTO);
+        historicoService.gravaHistorico();
         return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.CREATED);
     }
 
@@ -73,13 +79,9 @@ public class ClienteController {
     @Transactional
     public ResponseEntity<ClienteForm> update(@PathVariable String id, @Valid @RequestBody ClienteDTO clienteDTO) throws NotFoundException {
         ClienteDTO retornoCliente = clienteService.update(id, clienteDTO);
+        historicoService.gravaHistorico();
         return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.NO_CONTENT);
     }
-
-    private ClienteForm montaObjetoRetorno(ClienteDTO retornoCliente) {
-        return new ClienteMapper().dtoToForm(retornoCliente);
-    }
-
 
 
 }
