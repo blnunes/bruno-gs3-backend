@@ -2,6 +2,7 @@ package br.com.bruno.gs3.clientes.brunogs3backend.mapper;
 
 import br.com.bruno.gs3.clientes.brunogs3backend.dao.entity.Telefone;
 import br.com.bruno.gs3.clientes.brunogs3backend.dto.TelefoneDTO;
+import br.com.bruno.gs3.clientes.brunogs3backend.enums.TipoTelefoneEnum;
 import br.com.bruno.gs3.clientes.brunogs3backend.forms.TelefoneForm;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class TelefoneMapper implements MapperGlobal<Telefone, TelefoneDTO, Telef
         return Telefone.builder()
                 .ddd(dto.getDdd())
                 .numero(dto.getNumero())
+                .tipoTelefone(dto.getTipoTelefoneId())
                 .build();
     }
 
@@ -23,6 +25,7 @@ public class TelefoneMapper implements MapperGlobal<Telefone, TelefoneDTO, Telef
                 .id(entity.getId())
                 .ddd(entity.getDdd())
                 .numero(entity.getNumero())
+                .tipoTelefone(TipoTelefoneEnum.valueOfById(entity.getTipoTelefone()))
                 .build();
     }
 
@@ -32,6 +35,7 @@ public class TelefoneMapper implements MapperGlobal<Telefone, TelefoneDTO, Telef
                 .id(dto.getId())
                 .ddd(dto.getDdd())
                 .numero(dto.getNumero())
+                .tipoTelefone(dto.getTipoTelefoneId())
                 .build();
     }
 

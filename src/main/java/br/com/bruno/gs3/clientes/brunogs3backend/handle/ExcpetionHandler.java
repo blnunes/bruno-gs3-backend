@@ -40,4 +40,10 @@ public class ExcpetionHandler {
         return new ResponseEntity<>(new RetornoErroDTO(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<RetornoErroDTO> notFound(RuntimeException e) {
+        return new ResponseEntity<>(new RetornoErroDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 }

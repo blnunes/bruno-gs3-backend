@@ -18,8 +18,7 @@ import javax.validation.constraints.Size;
 public class TelefoneDTO extends DTO{
 
     private Long id;
-
-    @NotNull(message = "Tipo telefone não pode ser nulo")
+    private Integer tipoTelefoneId;
     private TipoTelefoneEnum tipoTelefone;
 
     @Size(min = 2, max = 2, message = "Campo ddd deve conter apenas 2 digitos. Exemplo: 99")

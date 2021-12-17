@@ -1,5 +1,6 @@
 package br.com.bruno.gs3.clientes.brunogs3backend.dao.entity;
 
+import br.com.bruno.gs3.clientes.brunogs3backend.enums.TipoTelefoneEnum;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,9 @@ public class Telefone extends EntityGlobal{
     @ManyToOne()
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
+    @Column
+    private Integer tipoTelefone;
 
     @Override
     public boolean equals(Object o) {
