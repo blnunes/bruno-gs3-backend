@@ -1,8 +1,8 @@
-# Leia me
+# Desafio GS3 Bruno Nunes Backend (LEIAME)
 1. Executar `mvn clean install` para realizar o download das dependências do projeto.
 2. Executar o comando `mvn spring-boot:run` no terminal para iniciar o container do springboot.
 3. Para validação de api's utilizar o caminho http:localhost:8080
-
+4. Para esse projeto, utilizei a versão 11 do Java.
 # Collections 
 1. O arquivo com exemplos de api's encontra-se no caminho: https://github.com/blnunes/bruno-gs3-backend/blob/master/clientes.postman_collection.json
 2. Caso realize o clone ou download do projeto, o mesmo se encontra na pasta raiz.
