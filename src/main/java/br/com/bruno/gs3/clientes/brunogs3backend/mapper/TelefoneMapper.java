@@ -35,7 +35,7 @@ public class TelefoneMapper implements MapperGlobal<Telefone, TelefoneDTO, Telef
                 .id(dto.getId())
                 .ddd(dto.getDdd())
                 .numero(dto.getNumero())
-                .tipoTelefone(dto.getTipoTelefoneId())
+                .tipoTelefoneId(dto.getTipoTelefone().getId())
                 .build();
     }
 

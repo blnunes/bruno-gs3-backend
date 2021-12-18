@@ -63,18 +63,24 @@ public class ClienteService implements ServiceGlobal<ClienteDTO> {
     public Cliente montaObjetoPersistencia(ClienteDTO dto, Cliente entity) {
         entity.setNome(dto.getNome());
         entity.setCpf(dto.getCpf());
-        entity.setEmails(montaListaEmail(dto.getEmails(), entity.getEmails()));
+        entity.setEmails(montaListaEmail(dto.getEmails(), entity));
         entity.setEndereco(montaEndereco(dto.getEndereco(), entity.getEndereco()));
-        entity.setTelefones(montaListaTelefone(dto.getTelefones(), entity.getTelefones()));
+        entity.setTelefones(montaListaTelefone(dto.getTelefones(), entity));
         return entity;
     }
 
-    private List<Telefone> montaListaTelefone(List<TelefoneDTO> dto, List<Telefone> entity) {
-        for (int i = 0; i < entity.size(); i++) {
-            entity.get(i).setDdd(dto.get(i).getDdd());
-            entity.get(i).setNumero(dto.get(i).getNumero());
+    private List<Telefone> montaListaTelefone(List<TelefoneDTO> dto, Cliente entity) {
+        for (int i = 0; i < dto.size(); i++) {
+            if(i >= entity.getTelefones().size() || entity.getTelefones().get(i).getCliente() == null){
+                Telefone telefone = new TelefoneMapper().dtoToEntity(dto.get(i));
+                telefone.setCliente(entity);
+                entity.getTelefones().add(telefone);
+            }else {
+                entity.getTelefones().get(i).setDdd(dto.get(i).getDdd());
+                entity.getTelefones().get(i).setNumero(dto.get(i).getNumero());
+            }
         }
-        return entity;
+        return entity.getTelefones();
     }
 
     private Endereco montaEndereco(EnderecoDTO dto, Endereco entity) {
@@ -87,11 +93,17 @@ public class ClienteService implements ServiceGlobal<ClienteDTO> {
         return entity;
     }
 
-    private List<EmailCliente> montaListaEmail(List<EmailDTO> dto, List<EmailCliente> entity) {
-        for (int i = 0; i < entity.size(); i++) {
-            entity.get(i).setEmail(dto.get(i).getEmail());
+    private List<EmailCliente> montaListaEmail(List<EmailDTO> dto, Cliente entity) {
+        for (int i = 0; i < dto.size(); i++) {
+            if(i >= entity.getEmails().size() || entity.getEmails().get(i).getCliente() == null){
+                EmailCliente emailCliente = new EmailMapper().dtoToEntity(dto.get(i));
+                emailCliente.setCliente(entity);
+                entity.getEmails().add(emailCliente);
+            }else {
+                entity.getEmails().get(i).setEmail(dto.get(i).getEmail());
+            }
         }
-        return entity;
+        return entity.getEmails();
     }
 
     @Override

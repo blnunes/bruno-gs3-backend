@@ -43,4 +43,6 @@ public class Telefone extends EntityGlobal{
     public int hashCode() {
         return Objects.hash(id, ddd, numero);
     }
+
+
 }

@@ -16,6 +16,9 @@ import java.util.List;
 @Builder
 public class ClienteDTO extends DTO{
 
+    @NotNull(message = "Login obrigatório")
+    private String login;
+
     private Long id;
 
     @Size(min = 3, max = 100, message = "Campo nome deve ter no mínimo 3 e no máximo 100 caracteres")

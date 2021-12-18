@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public abstract class DTO {
-    private String login;
+
 }

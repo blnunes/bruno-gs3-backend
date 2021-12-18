@@ -11,5 +11,5 @@ public class TelefoneForm extends FormGlobal{
     private Long id;
     private String ddd;
     private String numero;
-    private Integer tipoTelefone;
+    private Integer tipoTelefoneId;
 }

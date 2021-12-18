@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,16 +30,20 @@ public class ClienteController {
     private HistoricoService historicoService;
 
     @GetMapping()
-    public ResponseEntity<List<ClienteForm>> list() {
+    public ResponseEntity<List<ClienteForm>> list(@BeanParam @NotNull(message = "Login Obrigatório") String login) {
         List<ClienteForm> form = clienteService.findAll().stream().map(cliente ->
                 new ClienteMapper().dtoToForm(cliente)
         ).collect(Collectors.toList());
+        historicoService.gravaHistorico(login, TipoTransacaoEnum.GET);
+
         return new ResponseEntity<>(form, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ClienteForm> getOne(@PathVariable String id) {
-        return new ResponseEntity<>(new ClienteMapper().dtoToForm(clienteService.getOne(id)), HttpStatus.OK);
+    public ResponseEntity<ClienteForm> getOne(@PathVariable String id, @BeanParam @NotNull(message = "Login Obrigatório") String login) {
+        ClienteForm clienteForm = new ClienteMapper().dtoToForm(clienteService.getOne(id));
+        historicoService.gravaHistorico(login, TipoTransacaoEnum.GET_BY_ID);
+        return new ResponseEntity<>(clienteForm, HttpStatus.OK);
     }
 
     @PostMapping("/cadastrar")
