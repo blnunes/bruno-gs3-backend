@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.NotFoundException;
@@ -59,5 +60,13 @@ public class ClienteController {
         ClienteDTO retornoCliente = clienteService.update(id, clienteDTO);
         historicoService.gravaHistorico(clienteDTO.getLogin(), TipoTransacaoEnum.PUT);
         return new ResponseEntity<>(new ClienteMapper().dtoToForm(retornoCliente), HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    @Transactional
+    public ResponseEntity<ClienteForm> delete(@PathVariable String id, @NotNull @NotBlank @RequestBody String login) throws NotFoundException {
+        clienteService.delete(id);
+        historicoService.gravaHistorico(login, TipoTransacaoEnum.DELETE);
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 }

@@ -13,7 +13,9 @@ public enum TipoTransacaoEnum {
     GET(2, "Get cliente"),
     GET_BY_ID(3, "Get by id cliente"),
     POST(4, "Post cliente"),
-    PUT(5, "Put cliente");
+    PUT(5, "Put cliente"),
+    DELETE(6, "Delete cliente");
+
 
 
     private Integer id;

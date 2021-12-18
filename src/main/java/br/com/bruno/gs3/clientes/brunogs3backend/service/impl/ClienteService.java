@@ -140,7 +140,7 @@ public class ClienteService implements ServiceGlobal<ClienteDTO> {
 
     @Override
     public void delete(String id) {
-
+        clienteRepository.deleteById(Long.valueOf(id));
     }
 
     @Override
